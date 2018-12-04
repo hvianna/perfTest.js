@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>perfTest.js</title>
+	<link rel="stylesheet" href="vendor/codemirror/lib/codemirror.css">
+	<link rel="stylesheet" href="styles.css">
+	<script src="vendor/codemirror/lib/codemirror.js"></script>
+	<script src="vendor/codemirror/mode/javascript/javascript.js"></script>
+	<script src="perftest.js"></script>
+</head>
+
+<body>
+	<div class="container">
+
+		<div class="function-boxes">
+			<div>
+				Initialization:<br>
+				<textarea id="initialize">
+// create a native checkbox
+checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.checked = true;
+
+// create a div with custom data attribute
+custom = document.createElement('div');
+custom.dataset.active = '1';
+
+// set a global variable
+active = true;
+				</textarea>
+			</div>
+			<div>
+				<h1>perfTest.js</h1>
+				<div class="description">a simple platform to test the performance of JavaScript code</div>
+
+				<input id="start_button" type="button" value=" RUN IT! " onclick="javascript:do_it();">
+				<input type="button" value=" Reset history " onclick="javascript:reset();">
+			</div>
+		</div>
+
+		<div class="function-boxes">
+			<div>
+				Reference function:<br>
+				<textarea id="function0">
+// test the checkbox status
+
+if ( checkbox.checked ) {
+	// do something;
+}
+				</textarea>
+				<div id="function0_result" class="result"></div>
+			</div>
+			<div>
+				Function 1:<br>
+				<textarea id="function1">
+// test the custom data attribute
+
+if ( custom.dataset.active == '1' ) {
+	// do something;
+}
+				</textarea>
+				<div id="function1_result" class="result"></div>
+			</div>
+			<div>
+				Function 2:<br>
+				<textarea id="function2">
+// test the global variable
+
+if ( active ) {
+	// do something;
+}
+				</textarea>
+				<div id="function2_result" class="result"></div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>
