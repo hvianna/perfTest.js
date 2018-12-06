@@ -61,18 +61,20 @@ function do_it() {
 	editor[0].save();
 	userFunction[0] = document.getElementById('function0').value.trim();
 
-	start = new Date() | 0;
+	target = 1000;
 	repetitions = 0;
+	start = performance.now();
 
 	do {
 		eval( userFunction[ i ] );
 		repetitions++;
 
-		now = new Date() | 0;
-		elapsed = ( now - start ) / 1000;
+		now = performance.now();
+		elapsed = now - start;
 	}
-	while ( elapsed < 1 );
+	while ( elapsed < target );
 
+	elapsed /= 1000;
 	refTime = elapsed;
 	averages[0] += repetitions;
 
@@ -88,18 +90,19 @@ function do_it() {
 
 		if ( userFunction[ i ] ) {
 
-			start = new Date() | 0;
 			repetitions = 0;
+			start = performance.now();
 
 			do {
 				eval( userFunction[ i ] );
 				repetitions++;
 
-				now = new Date() | 0;
-				elapsed = ( now - start ) / 1000;
+				now = performance.now();
+				elapsed = now - start;
 			}
 			while ( repetitions < target );
 
+			elapsed /= 1000;
 			averages[ i ] += elapsed / refTime - 1;
 
 			outputDiv[ i ].innerHTML = '<span class="label">Last run</span>' + repetitions + ' repetitions in <strong>' + elapsed + 's</strong>' +
