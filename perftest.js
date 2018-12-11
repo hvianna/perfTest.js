@@ -1,6 +1,6 @@
 /**
  * perfTest.js
- * a simple platform to test the performance of JavaScript code
+ * a simple tool to compare the performance of JavaScript code
  *
  * Copyright (c) 2018 Henrique Vianna
  * Licensed under the MIT License: https://github.com/hvianna/perfTest.js/blob/master/LICENSE
