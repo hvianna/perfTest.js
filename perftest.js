@@ -2,7 +2,7 @@
  * perfTest.js
  * a simple tool to compare the performance of JavaScript code
  *
- * Copyright (c) 2018 Henrique Vianna
+ * Copyright (c) 2018-2019 Henrique Vianna
  * Licensed under the MIT License: https://github.com/hvianna/perfTest.js/blob/master/LICENSE
  */
 
@@ -10,111 +10,111 @@
 /**
  * Global variables
  */
-var n = 0,
-	averages = [0, 0, 0],
-	running = false,
-	editor = [],
-	editor_init;
+var __n = 0,
+	__averages = [0, 0, 0],
+	__running = false,
+	__editor = [],
+	__editor_init;
 
 
 /**
  * Reset run history
  */
-function reset() {
-	n = 0;
-	averages = [0, 0, 0];
+function __reset() {
+	__n = 0;
+	__averages = [0, 0, 0];
 
 	for ( var i = 0; i < 3; i++ )
 		document.getElementById(`function${i}_result`).innerHTML = '';
 }
-	
+
 
 /**
  * Run the tests
  */
-function do_it() {
+function __do_it() {
 
-	if ( running )
+	if ( __running )
 		return false;
 
-	running = true;
+	__running = true;
 
 	document.getElementById('start_button').value=" WAIT... ";
 
-	n++;
+	__n++;
 
-	var userFunction = [];
+	var __userFunction = [];
 
-	var outputDiv = [
+	var __outputDiv = [
 			document.getElementById('function0_result'),
 			document.getElementById('function1_result'),
 			document.getElementById('function2_result')
 	]
 
-	var start, now, elapsed, repetitions, target, refTime, className;
+	var __start, __now, __elapsed, __repetitions, __target, __refTime, __className;
 
-	var i = 0;
+	var __i = 0;
 
-	editor_init.save();
+	__editor_init.save();
 	eval( document.getElementById('initialize').value.trim() );
 
-	editor[0].save();
-	userFunction[0] = document.getElementById('function0').value.trim();
+	__editor[0].save();
+	__userFunction[0] = document.getElementById('function0').value.trim();
 
-	target = 1000;
-	repetitions = 0;
-	start = performance.now();
+	__target = 1000;
+	__repetitions = 0;
+	__start = performance.now();
 
 	do {
-		eval( userFunction[ i ] );
-		repetitions++;
+		eval( __userFunction[ __i ] );
+		__repetitions++;
 
-		now = performance.now();
-		elapsed = now - start;
+		__now = performance.now();
+		__elapsed = __now - __start;
 	}
-	while ( elapsed < target );
+	while ( __elapsed < __target );
 
-	elapsed /= 1000;
-	refTime = elapsed;
-	averages[0] += repetitions;
+	__elapsed /= 1000;
+	__refTime = __elapsed;
+	__averages[0] += __repetitions;
 
-	outputDiv[0].innerHTML = '<span class="label">Last run</span>' + repetitions + ' repetitions in <strong>' + elapsed + 's</strong>' +
-							 '<span class="label">Average of ' + n + ' runs</span>' + Math.round( averages[0] / n ) + ' repetitions';
+	__outputDiv[0].innerHTML = '<span class="label">Last run</span>' + __repetitions + ' repetitions in <strong>' + __elapsed + 's</strong>' +
+							   '<span class="label">Average of ' + __n + ' runs</span>' + Math.round( __averages[0] / __n ) + ' repetitions';
 
-	target = repetitions;
+	__target = __repetitions;
 
-	for ( i = 1; i < 3; i++ ) {
+	for ( __i = 1; __i < 3; __i++ ) {
 
-		editor[ i ].save();
-		userFunction[ i ] = document.getElementById(`function${i}`).value.trim();
+		__editor[ __i ].save();
+		__userFunction[ __i ] = document.getElementById(`function${__i}`).value.trim();
 
-		if ( userFunction[ i ] ) {
+		if ( __userFunction[ __i ] ) {
 
-			repetitions = 0;
-			start = performance.now();
+			__repetitions = 0;
+			__start = performance.now();
 
 			do {
-				eval( userFunction[ i ] );
-				repetitions++;
+				eval( __userFunction[ __i ] );
+				__repetitions++;
 
-				now = performance.now();
-				elapsed = now - start;
+				__now = performance.now();
+				__elapsed = __now - __start;
 			}
-			while ( repetitions < target );
+			while ( __repetitions < __target );
 
-			elapsed /= 1000;
-			averages[ i ] += elapsed / refTime - 1;
+			__elapsed /= 1000;
+			__averages[ __i ] += __elapsed / __refTime - 1;
 
-			outputDiv[ i ].innerHTML = '<span class="label">Last run</span>' + repetitions + ' repetitions in <strong>' + elapsed + 's</strong>' +
-									   '<span class="label">Average of ' + n + ' runs</span>';
+			__outputDiv[ __i ].innerHTML = '<span class="label">Last run</span>' + __repetitions + ' repetitions in <strong>' + __elapsed + 's</strong>' +
+									       '<span class="label">Average of ' + __n + ' runs</span>';
 
-			ratio = parseInt( averages[ i ] / n * 10000 ) / 100;
+			__ratio = parseInt( __averages[ __i ] / __n * 10000 ) / 100;
 
-			outputDiv[ i ].innerHTML += '<span class="' + ( className = ( ratio < 0 ? 'faster' : 'slower' ) ) + '">' + Math.abs( ratio ) + '% ' + className;
+			__outputDiv[ __i ].innerHTML += '<span class="' + ( __className = ( __ratio < 0 ? 'faster' : 'slower' ) ) + '">' + Math.abs( __ratio ) + '% ' + __className;
 		}
 	}
 
-	running = false;
+	__running = false;
 
 	document.getElementById('start_button').value=" RUN IT! ";
 
@@ -124,18 +124,18 @@ function do_it() {
 /**
  * Initialize
  */
-function initialize() {
+function __initialize() {
 
-	editor_init = CodeMirror.fromTextArea( document.getElementById('initialize'), {
+	__editor_init = CodeMirror.fromTextArea( document.getElementById('initialize'), {
 //		lineNumbers: true,
 		mode: 'javascript'
 	});
 
   	for ( var i = 0; i < 3; i++ ) {
-		editor[ i ] = CodeMirror.fromTextArea( document.getElementById(`function${i}`), {
+		__editor[ i ] = CodeMirror.fromTextArea( document.getElementById(`function${i}`), {
 			mode: 'javascript'
 		});
   	}
 }
 
-window.onload = initialize;
+window.onload = __initialize;
